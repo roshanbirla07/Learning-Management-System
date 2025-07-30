@@ -1,0 +1,92 @@
+
+➕ AUTHENTICATION
+
+USER REGISTRATION
+API REQUEST: POST /auth/signup
+REQUEST BODY:
+{ "name": "", "email": "", "password": "", "role": "user/admin" }
+RESPONSE:
+{ "token": "", "user": { ... } }
+
+USER LOGIN
+API REQUEST: POST /auth/login
+REQUEST BODY:
+{ "email": "", "password": "" }
+RESPONSE:
+{ "token": "", "user": { ... } }
+
+
+📚 COURSES
+
+CREATE COURSE (Admin only)
+API REQUEST: POST /courses
+REQUEST BODY:
+{ "title": "", "description": "", "instructorName": "", "price": 0 }
+RESPONSE:
+{ "course": { ... } }
+
+GET ALL COURSES
+API REQUEST: GET /courses?page=1&limit=10
+RESPONSE:
+[ { "course": { ... } }, ... ]
+
+GET COURSE BY ID
+API REQUEST: GET /courses/:id
+RESPONSE:
+{ "courseDetails": { ... }, "lessons": [...], "quizzes": [...] }
+
+ENROLL IN COURSE
+API REQUEST: POST /courses/:id/enroll
+RESPONSE:
+{ "message": "Enrolled" }
+
+
+🎓 LESSONS
+
+ADD LESSON TO COURSE (Admin only)
+API REQUEST: POST /lessons/create
+REQUEST BODY:
+{ "courseId": "", "title": "", "content": "" }
+RESPONSE:
+{ "message": "Lesson added successfully", "lesson": { ... } }
+
+COMPLETE LESSON
+API REQUEST: POST /lessons/complete ? id=lessonId
+
+RESPONSE:
+{ "message": "Lesson completed" , "lesson": { ... } ,"progress": {...} }
+
+
+📝 QUIZZES
+
+CREATE QUIZ FOR COURSE (Admin only)
+API REQUEST: POST /quizzes/createQuiz?id=courseId
+REQUEST BODY:
+{"title":"", "questions": [ { "question": "", "options": [], "correctOption": "" } ] }
+RESPONSE:
+{ "message": "Quiz created and added to course", "quiz": { ... } }
+
+GET ALL QUIZZES
+API REQUEST: GET /quizzes
+RESPONSE:
+[ { "quiz": { ... } }, ... ]
+
+ATTEMPT QUIZ
+API REQUEST: POST /quizzes/attempt?id=quizId
+REQUEST BODY:
+{"answers": [ { "questionId": "", "selectedOption": "" } ] }
+RESPONSE:
+{ "score": 0, "summary": [ { "questionId": "", "userOption": "", "correctOption": "" ,"isCorrect":""} ] , "correctAnswers": 0, totalQuestions: 0 }
+
+GET QUIZ ATTEMPTS
+API REQUEST: GET /quizzes/attempts?id=quizId
+RESPONSE:
+[ { "attemptId": "", "score": 0, "answers": [...] }, ... , "totalAttempts": 2 ]
+
+
+📈 PROGRESS
+
+GET USER PROGRESS
+API REQUEST: GET /progress
+RESPONSE:
+{ "user": [...], "overallStats": {"totalEnrolledCourses":"", "totalCompletedLessons":"" , "totalQuizzAttempts":"","averageQuizScore":""},"coursesProgress":"","recentActivity": {"lesson":recentLesson , "quizAttemps":recentQuizAttempts} }
